@@ -25,13 +25,12 @@ def stream_file(filepath):
                 _, jpeg = cv2.imencode('.jpg', frame)
                 files = {'image': jpeg.tostring()}
                 rv = requests.post(CAMER_URL, files=files)
+            else:
+                break
         cap.release()
 
 if __name__ == '__main__':
-
     STREAM_VIDEO = os.environ.get('STREAM_VIDEO', 'TRUE').upper()
-    LOG('STREAM_VIDEO>>>')
-    LOG(STREAM_VIDEO)
     if STREAM_VIDEO == 'TRUE':
         while True:
             stream_file(FILEPATH)

@@ -44,7 +44,7 @@ services:
         volumes:
             - "/home:/home"
         environment:
-            - STREAM_VIDEO=False
+            - STREAM_VIDEO=True
             - FILEPATH=/small.mp4 #your file /home/<username>/path/file.mp4
             - CAMER_URL=http://test-mjpeg-server:5000/mjpeg/camera/1/feed
         depends_on:
