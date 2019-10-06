@@ -1,0 +1,50 @@
+version: '2.3'
+
+services:
+    # сервер для управления статическими файлами и запросов к API
+    test-nginx:
+        container_name: test-nginx
+        restart: always
+        image: nginx:latest
+        ports:
+            - "8080:80"
+        volumes:
+            - "./conf/nginx/:/etc/nginx/conf.d/"
+            - "./compose-data/django-rest:/src/www/rest/static/"
+            - "./compose-data/media/:/src/www/rest/media/"
+            - "./html-static/:/src/www/test/static/"
+            - "./compose-data/logs/nginx/:/var/log/nginx/"
+        depends_on:
+            - test-mjpeg-server
+            - test-streamer
+        #logging:
+        #    driver: none
+
+    test-mjpeg-server:
+        restart: always
+        container_name: test-mjpeg-server
+        build:
+            context: ./mjpeg-server
+            dockerfile: Dockerfile
+        volumes:
+            - "/home:/home"
+        environment:
+            - DEBUG=false
+            - IMAGE_CACHED_SECONDS=60
+            - RESTART_CAMERA_SECONDS=120
+        logging:
+            driver: none
+
+    test-streamer:
+        restart: always
+        container_name: test-streamer
+        build:
+            context: ./streamer
+            dockerfile: Dockerfile
+        volumes:
+            - "/home:/home"
+        environment:
+            - FILEPATH=/small.mp4 #your file /home/<username>/path/file.mp4
+            - CAMER_URL=http://test-mjpeg-server:5000/mjpeg/camera/1/feed
+        depends_on:
+            - test-mjpeg-server
