@@ -27,7 +27,9 @@ docker-compose down
 
 Адрес веб-интерфейса  http://127.0.0.1:8080
 
-Необходимо указать СВОЙ видео-файл для сервиса test-streamer
+настройки:
+- Для работы сервиса test-streamer можно указать параметр STREAM_VIDEO. При значении True будет производить стрим файла в mjpeg-server.
+- Можно укзаать свой файл, которы будет стримиться, в docker-compose.ymlв сервисе test-streamer
 
 ```
 - FILEPATH=/home/bat/Video/small.mp4 #your file

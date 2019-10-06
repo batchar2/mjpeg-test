@@ -17,8 +17,8 @@ services:
         depends_on:
             - test-mjpeg-server
             - test-streamer
-        #logging:
-        #    driver: none
+        logging:
+            driver: none
 
     test-mjpeg-server:
         restart: always
@@ -44,6 +44,7 @@ services:
         volumes:
             - "/home:/home"
         environment:
+            - STREAM_VIDEO=False
             - FILEPATH=/small.mp4 #your file /home/<username>/path/file.mp4
             - CAMER_URL=http://test-mjpeg-server:5000/mjpeg/camera/1/feed
         depends_on:

@@ -28,6 +28,13 @@ def stream_file(filepath):
         cap.release()
 
 if __name__ == '__main__':
-    while True:
-        stream_file(FILEPATH)
-        time.sleep(60)
+
+    STREAM_VIDEO = os.environ.get('STREAM_VIDEO', 'TRUE').upper()
+    LOG('STREAM_VIDEO>>>')
+    LOG(STREAM_VIDEO)
+    if STREAM_VIDEO == 'TRUE':
+        while True:
+            stream_file(FILEPATH)
+    else:
+        while True:
+            time.sleep(10)
